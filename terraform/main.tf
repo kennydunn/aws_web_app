@@ -10,6 +10,18 @@ resource "aws_iam_role" "example_lambda_iam" {
 	assume_role_policy = data.aws_iam_policy_document.example_lambda_policy.json
 }
 
+data "aws_iam_policy_document" "example_lambda_policy" {
+	statement {
+		sid    = "examplePolicyId"
+		effect = "Allow"
+		principals {
+			identifiers = ["lambda.amazonaws.com"]
+			type        = "Service"
+		}
+		actions = ["sts:AssumeRole"]
+	}
+}
+
 resource "aws_lambda_function" "example_lambda_function" {
 	function_name    = "example_function"
 	filename          = data.archive_file.example_zip_file.output_path
