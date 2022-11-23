@@ -5,6 +5,11 @@ data "archive_file" "example_zip_file" {
 	output_path = "example.zip"
 }
 
+resource "aws_iam_role" "example_lambda_iam" {
+	name               = "example_lambda_iam"
+	assume_role_policy = data.aws_iam_policy_document.example_lambda_policy.json
+}
+
 resource "aws_lambda_function" "example_lambda_function" {
 	function_name    = "example_function"
 	filename          = data.archive_file.example_zip_file.output_path
